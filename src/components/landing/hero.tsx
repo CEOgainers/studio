@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import logo from './logo.png';
-
 export function Hero() {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-primary/20 via-background to-background">
@@ -24,7 +22,7 @@ export function Hero() {
             </div>
           </div>
           <Image
-            src={logo}
+            src="logo.png"
             width="600"
             height="400"
             alt="Gainers Future Banner"
