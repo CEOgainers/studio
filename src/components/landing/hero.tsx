@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import logo from './logo.jpg'; // Import the JPG image
+import logo from './logo.jpg'; // 1. Import the correct image file
 
 export function Hero() {
   return (
@@ -24,7 +24,7 @@ export function Hero() {
             </div>
           </div>
           <Image
-            src={logo} // Use the imported 'logo' variable here
+            src={logo} // 2. Use the imported variable here
             width={600}
             height={400}
             alt="Gainers Future Banner"
