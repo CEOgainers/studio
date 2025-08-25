@@ -23,13 +23,13 @@ export function Hero() {
             </div>
           </div>
           <Image
-            src="https://img-c.static-file.com/R29zZ2xl/1d643881-0f04-42b7-86c0-f8f4a13e6140.png"
-            width="600"
-            height="400"
-            alt="Gainers Future Banner"
-            data-ai-hint="education banner"
-            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square shadow-2xl"
-          />
+    src="https://img-c.static-file.com/R29zZ2xl/1d643881-0f04-42b7-86c0-f8f4a13e6140.png"
+    width="600"
+    height="400"
+    alt="Gainers Future Banner"
+    data-ai-hint="education banner"
+    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square shadow-2xl"
+/>
         </div>
       </div>
     </section>
