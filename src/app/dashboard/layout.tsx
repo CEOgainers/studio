@@ -6,6 +6,7 @@ import {
   GraduationCap,
   PanelLeft,
 } from 'lucide-react';
+import React from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -95,14 +96,15 @@ function DesktopNav() {
 function DashboardView({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
   
-  if (loading) {
+  if (loading || !user) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  }
-  
-  if (!user) {
-    router.push('/login');
-    return null;
   }
   
   return (
