@@ -7,6 +7,7 @@ import {
   Star,
   BookUser,
   GraduationCap,
+  PanelLeft,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -18,38 +19,47 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { UserNav } from './components/user-nav';
-import { AuthProvider } from '@/lib/auth/auth-provider';
-import { auth } from '@/lib/auth/firebase';
-import { redirect } from 'next/navigation';
+import { AuthProvider, useAuth } from '@/lib/auth/auth-provider';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import DashboardNav from './components/dashboard-nav';
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // This is a server component, so we can check for auth here.
-  // The layout is wrapped in an AuthProvider on the client side
-  // to provide the auth context to client components.
-  const user = await new Promise((resolve) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      unsubscribe();
-      resolve(user);
-    });
-  });
+function MobileNav() {
+    return (
+    <Sheet>
+        <SheetTrigger asChild>
+        <Button size="icon" variant="outline" className="sm:hidden">
+            <PanelLeft className="h-5 w-5" />
+            <span className="sr-only">Toggle Menu</span>
+        </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="sm:max-w-xs">
+        <nav className="grid gap-6 text-lg font-medium">
+            <Link
+                href="#"
+                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+            >
+                <GraduationCap className="h-5 w-5 transition-all group-hover:scale-110" />
+                <span className="sr-only">Scholar Journey</span>
+            </Link>
+            <DashboardNav isMobile={true} />
+        </nav>
+        </SheetContent>
+    </Sheet>
+    )
+}
 
-  if (!user) {
-    return redirect('/login');
-  }
-
-  return (
-    <AuthProvider>
-      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <div className="hidden border-r bg-sidebar md:block">
+function DesktopNav() {
+    return (
+         <div className="hidden border-r bg-muted/40 md:block">
           <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
               <Link href="/" className="flex items-center gap-2 font-semibold">
-                <GraduationCap className="h-6 w-6 text-sidebar-primary" />
-                <span className="font-headline text-sidebar-foreground">Scholar Journey</span>
+                <GraduationCap className="h-6 w-6 text-primary" />
+                <span className="font-headline">Scholar Journey</span>
               </Link>
               <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
                 <Bell className="h-4 w-4" />
@@ -58,41 +68,7 @@ export default async function DashboardLayout({
             </div>
             <div className="flex-1">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-foreground transition-all hover:text-sidebar-primary hover:bg-sidebar-accent"
-                >
-                  <Home className="h-4 w-4" />
-                  Dashboard
-                </Link>
-                <Link
-                  href="/dashboard/originality-checker"
-                  className="flex items-center gap-3 rounded-lg bg-sidebar-accent px-3 py-2 text-sidebar-primary transition-all hover:text-sidebar-primary"
-                >
-                  <FileCheck2 className="h-4 w-4" />
-                  Originality Checker
-                </Link>
-                <Link
-                  href="#"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-foreground transition-all hover:text-sidebar-primary hover:bg-sidebar-accent"
-                >
-                  <Star className="h-4 w-4" />
-                  Tasks
-                </Link>
-                <Link
-                  href="#"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-foreground transition-all hover:text-sidebar-primary hover:bg-sidebar-accent"
-                >
-                  <BookUser className="h-4 w-4" />
-                  Documents
-                </Link>
-                <Link
-                  href="#"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-foreground transition-all hover:text-sidebar-primary hover:bg-sidebar-accent"
-                >
-                  <Trophy className="h-4 w-4" />
-                  Leaderboard
-                </Link>
+                <DashboardNav />
               </nav>
             </div>
             <div className="mt-auto p-4">
@@ -113,8 +89,32 @@ export default async function DashboardLayout({
             </div>
           </div>
         </div>
+    )
+}
+
+
+function DashboardView({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+  
+  if (!user) {
+    // This should be handled by the layout's server-side check, 
+    // but as a fallback, we can redirect client-side as well.
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    return null;
+  }
+  
+  return (
+      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <DesktopNav />
         <div className="flex flex-col">
           <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+             <MobileNav />
              <div className="w-full flex-1">
                {/* Can be used for search or breadcrumbs */}
              </div>
@@ -125,6 +125,17 @@ export default async function DashboardLayout({
           </main>
         </div>
       </div>
+  )
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AuthProvider>
+      <DashboardView>{children}</DashboardView>
     </AuthProvider>
   );
 }
