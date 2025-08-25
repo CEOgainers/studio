@@ -10,15 +10,18 @@ export function Header() {
         <span className="sr-only">Scholar Journey</span>
         <span className="ml-2 text-xl font-headline font-bold">Scholar Journey</span>
       </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
+      <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
         <Link href="#services" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
           Services
         </Link>
         <Link href="#how-it-works" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
           How It Works
         </Link>
-        <Link href="/dashboard" prefetch={false}>
-          <Button>Dashboard</Button>
+        <Link href="/login" prefetch={false}>
+          <Button variant="outline">Login</Button>
+        </Link>
+        <Link href="/signup" prefetch={false}>
+          <Button>Sign Up</Button>
         </Link>
       </nav>
     </header>

@@ -17,7 +17,7 @@ export function Hero() {
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/dashboard">
+              <Link href="/signup">
                 <Button size="lg">Join Now</Button>
               </Link>
             </div>
