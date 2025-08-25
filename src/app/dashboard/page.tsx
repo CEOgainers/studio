@@ -17,6 +17,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, Circle, Lock, Star, Trophy } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const tasks = [
@@ -37,6 +39,7 @@ export default function DashboardPage() {
   const totalTasks = 15;
   const completedTasks = tasks.filter(t => t.status === 'completed').length;
   const progress = (completedTasks / totalTasks) * 100;
+  const activeTask = tasks.find(t => t.status === 'active');
 
   return (
     <>
@@ -88,37 +91,20 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="font-headline">Your Scholarship Journey</CardTitle>
             <CardDescription>
-              Complete tasks to unlock the next steps and earn XP.
+                {activeTask ? `Your current task is: ${activeTask.name}.` : "You've completed all tasks!"}
+                 Keep up the great work!
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Task</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>XP Gained</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {tasks.map((task) => (
-                  <TableRow key={task.name}>
-                    <TableCell className="font-medium flex items-center gap-2">
-                      {task.status === 'completed' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
-                      {task.status === 'active' && <Circle className="h-4 w-4 text-accent" />}
-                      {task.status === 'locked' && <Lock className="h-4 w-4 text-muted-foreground" />}
-                      {task.name}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={task.status === 'completed' ? 'secondary' : task.status === 'active' ? 'default' : 'outline'} className="capitalize">
-                        {task.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{task.xp > 0 ? `${task.xp} XP` : '-'}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="p-6 bg-secondary/50 rounded-lg">
+                <h3 className="font-semibold text-lg">Next Up: {activeTask?.name}</h3>
+                <p className="text-muted-foreground mt-2">
+                    Complete your active tasks to unlock the next steps in your scholarship journey.
+                </p>
+                <Link href="/dashboard/tasks">
+                    <Button className="mt-4">Go to My Tasks</Button>
+                </Link>
+            </div>
           </CardContent>
         </Card>
         <Card>
