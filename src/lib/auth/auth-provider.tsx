@@ -30,6 +30,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!auth) {
+        setLoading(false);
+        return;
+    }
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
@@ -40,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   
   useEffect(() => {
     let unsubscribeFirestore: (() => void) | undefined;
-    if (user) {
+    if (user && db) {
       const userDocRef = doc(db, 'users', user.uid);
       unsubscribeFirestore = onSnapshot(userDocRef, (doc) => {
         if (doc.exists()) {
@@ -61,7 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const logout = async () => {
-    await signOut(auth);
+    if (auth) {
+        await signOut(auth);
+    }
   };
 
   return (

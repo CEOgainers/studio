@@ -27,6 +27,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { GraduationCap } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
@@ -49,6 +51,14 @@ export default function LoginPage() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if (!auth) {
+        toast({
+            variant: 'destructive',
+            title: 'Login Failed',
+            description: 'Firebase is not configured correctly.',
+        });
+        return;
+    }
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
@@ -67,6 +77,22 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+
+  if (!auth) {
+    return (
+        <div className="flex min-h-screen items-center justify-center bg-secondary/30 p-4">
+            <Alert variant="destructive" className="max-w-md">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Firebase Not Configured</AlertTitle>
+                <AlertDescription>
+                    Please make sure you have set up your Firebase project and added the
+                    necessary environment variables to your .env file. The application
+                    will not work correctly without them.
+                </AlertDescription>
+            </Alert>
+        </div>
+    )
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary/30 p-4">
