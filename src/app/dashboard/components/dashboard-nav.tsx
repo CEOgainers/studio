@@ -7,6 +7,7 @@ import {
   Trophy,
   Star,
   BookUser,
+  Settings,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -17,6 +18,7 @@ const navItems = [
     { href: '/dashboard/tasks', icon: Star, label: 'Tasks' },
     { href: '/dashboard/documents', icon: BookUser, label: 'Documents' },
     { href: '/dashboard/leaderboard', icon: Trophy, label: 'Leaderboard' },
+    { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
 
 export default function DashboardNav({ isMobile = false }: { isMobile?: boolean }) {
