@@ -1,11 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import {
   Bell,
-  Home,
-  FileCheck2,
-  Trophy,
-  Star,
-  BookUser,
   GraduationCap,
   PanelLeft,
 } from 'lucide-react';
@@ -26,6 +23,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import DashboardNav from './components/dashboard-nav';
+import { useRouter } from 'next/navigation';
+
 
 function MobileNav() {
     return (
@@ -95,17 +94,14 @@ function DesktopNav() {
 
 function DashboardView({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const router = useRouter();
   
   if (loading) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
   
   if (!user) {
-    // This should be handled by the layout's server-side check, 
-    // but as a fallback, we can redirect client-side as well.
-    if (typeof window !== 'undefined') {
-      window.location.href = '/login';
-    }
+    router.push('/login');
     return null;
   }
   
