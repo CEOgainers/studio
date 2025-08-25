@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import logo from './logo.png';
 
 export function Hero() {
   return (
@@ -23,7 +24,7 @@ export function Hero() {
             </div>
           </div>
           <Image
-            src="https://img-c.static-file.com/R29zZ2xl/1d643881-0f04-42b7-86c0-f8f4a13e6140.png"
+            src={logo}
             width="600"
             height="400"
             alt="Gainers Future Banner"
