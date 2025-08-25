@@ -24,13 +24,13 @@ export function Hero() {
             </div>
           </div>
           <Image
-    src="src={logo}
-    width="600"
-    height="400"
-    alt=""
-    data-ai-hint="education banner"
-    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square shadow-2xl"
-/>
+            src={logo}
+            width="600"
+            height="400"
+            alt="Gainers Future Banner"
+            data-ai-hint="education banner"
+            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square shadow-2xl"
+          />
         </div>
       </div>
     </section>
