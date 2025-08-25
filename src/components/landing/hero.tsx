@@ -22,7 +22,7 @@ export function Hero() {
             </div>
           </div>
           <Image
-            src="logo.png"
+            src="logo.jpg"
             width="600"
             height="400"
             alt="Gainers Future Banner"
