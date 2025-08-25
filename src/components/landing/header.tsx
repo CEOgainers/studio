@@ -17,11 +17,8 @@ export function Header() {
         <Link href="#how-it-works" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
           How It Works
         </Link>
-        <Link href="/login" prefetch={false}>
-          <Button variant="outline">Login</Button>
-        </Link>
-        <Link href="/signup" prefetch={false}>
-          <Button>Sign Up</Button>
+        <Link href="/dashboard" prefetch={false}>
+          <Button>Dashboard</Button>
         </Link>
       </nav>
     </header>
