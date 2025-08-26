@@ -18,14 +18,35 @@ let auth: Auth | null = null;
 let db: Firestore | null = null;
 let analytics: Analytics | null = null;
 
-const allConfigSet = Object.values(firebaseConfig).every(Boolean);
+// Check if all required environment variables are set
+const allConfigSet =
+  firebaseConfig.apiKey &&
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.storageBucket &&
+  firebaseConfig.messagingSenderId &&
+  firebaseConfig.appId;
 
 if (allConfigSet) {
-    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    auth = getAuth(app);
-    db = getFirestore(app);
-    if (typeof window !== 'undefined') {
-      analytics = getAnalytics(app);
+    try {
+        app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+        auth = getAuth(app);
+        db = getFirestore(app);
+        if (typeof window !== 'undefined') {
+          // Check if analytics is supported
+          try {
+            analytics = getAnalytics(app);
+          } catch(e) {
+            console.warn("Firebase Analytics is not available in this environment.");
+            analytics = null;
+          }
+        }
+    } catch(e) {
+        console.error("Error initializing Firebase", e);
+        app = null;
+        auth = null;
+        db = null;
+        analytics = null;
     }
 } else {
     console.warn("Firebase config is not fully set. Firebase will not be initialized.");
