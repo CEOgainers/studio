@@ -5,6 +5,8 @@ import { Accordion } from '@/components/ui/accordion';
 import { ApplicationTrackerTask } from './tasks/application-tracker-task';
 import { SubmitCredentialsTask } from './tasks/submit-credentials-task';
 import { ProfileTask } from './tasks/profile-task';
+import { CountryPreferenceTask } from './tasks/country-preference-task';
+import { SopWrittenTask } from './tasks/sop-written-task';
 
 export default function TasksView({ isInstructor = false }: { isInstructor?: boolean }) {
   return (
@@ -21,6 +23,8 @@ export default function TasksView({ isInstructor = false }: { isInstructor?: boo
         <ApplicationTrackerTask isInstructor={isInstructor} />
         <SubmitCredentialsTask isInstructor={isInstructor} />
         <ProfileTask isInstructor={isInstructor} />
+        <CountryPreferenceTask isInstructor={isInstructor} />
+        <SopWrittenTask isInstructor={isInstructor} />
       </Accordion>
     </div>
   );
