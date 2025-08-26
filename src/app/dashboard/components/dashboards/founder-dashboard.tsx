@@ -1,74 +1,77 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, CreditCard, Home, Settings, Users } from 'lucide-react';
+import { BarChart, CreditCard, Home, Settings, Users, DollarSign, Activity } from 'lucide-react';
 
 
 export function FounderDashboard() {
   return (
-     <Tabs defaultValue="overview">
-        <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview"><Home className="w-4 h-4 mr-2" /> Overview</TabsTrigger>
-            <TabsTrigger value="analytics"><BarChart className="w-4 h-4 mr-2" /> Analytics</TabsTrigger>
-            <TabsTrigger value="users"><Users className="w-4 h-4 mr-2" /> Users</TabsTrigger>
-            <TabsTrigger value="revenue"><CreditCard className="w-4 h-4 mr-2" /> Revenue</TabsTrigger>
-            <TabsTrigger value="settings"><Settings className="w-4 h-4 mr-2" /> Settings</TabsTrigger>
-        </TabsList>
-        <TabsContent value="overview">
+    <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
-                <CardHeader>
-                    <CardTitle>Founder Overview</CardTitle>
-                    <CardDescription>High-level business intelligence and KPIs.</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                        Total Revenue
+                    </CardTitle>
+                    <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p>Key metrics like total revenue, user growth, and application success rates will be displayed here.</p>
+                    <div className="text-2xl font-bold">BDT 450,231.89</div>
+                    <p className="text-xs text-muted-foreground">
+                        +20.1% from last month
+                    </p>
                 </CardContent>
             </Card>
-        </TabsContent>
-        <TabsContent value="analytics">
             <Card>
-                <CardHeader>
-                    <CardTitle>Analytics Dashboard</CardTitle>
-                    <CardDescription>In-depth platform analytics and user behavior.</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                        Active Users
+                    </CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p>Detailed charts and graphs for analytics will be here.</p>
+                    <div className="text-2xl font-bold">+2350</div>
+                    <p className="text-xs text-muted-foreground">
+                        +180.1% from last month
+                    </p>
                 </CardContent>
             </Card>
-        </TabsContent>
-        <TabsContent value="users">
             <Card>
-                <CardHeader>
-                    <CardTitle>User Management</CardTitle>
-                    <CardDescription>View and manage staff roles.</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+                    <CreditCard className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p>A table of admins and instructors will be here.</p>
+                    <div className="text-2xl font-bold">+12.4%</div>
+                    <p className="text-xs text-muted-foreground">
+                        +1.9% from last month
+                    </p>
                 </CardContent>
             </Card>
-        </TabsContent>
-        <TabsContent value="revenue">
             <Card>
-                <CardHeader>
-                    <CardTitle>Revenue Reports</CardTitle>
-                    <CardDescription>Financial reports and revenue tracking.</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                        Application Success
+                    </CardTitle>
+                    <Activity className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p>Detailed financial reports and charts will be here.</p>
+                    <div className="text-2xl font-bold">92%</div>
+                    <p className="text-xs text-muted-foreground">
+                        Based on completed applications
+                    </p>
                 </CardContent>
             </Card>
-        </TabsContent>
-        <TabsContent value="settings">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Platform Settings</CardTitle>
-                    <CardDescription>Manage platform-wide settings.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>Controls for platform settings will be here.</p>
-                </CardContent>
-            </Card>
-        </TabsContent>
-    </Tabs>
+        </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>Analytics Overview</CardTitle>
+                <CardDescription>In-depth platform analytics and user behavior.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p>Detailed charts and graphs for analytics will be here.</p>
+            </CardContent>
+        </Card>
+    </div>
   );
 }

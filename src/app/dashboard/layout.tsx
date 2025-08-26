@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -66,28 +67,10 @@ function DesktopNav() {
                 <span className="sr-only">Toggle notifications</span>
               </Button>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 overflow-y-auto">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                 <DashboardNav />
               </nav>
-            </div>
-            <div className="mt-auto p-4">
-              <Card>
-                <CardHeader className="p-2 pt-0 md:p-4">
-                  <CardTitle className="font-headline">Upgrade to Pro</CardTitle>
-                  <CardDescription>
-                    Unlock all features and get unlimited access to our support
-                    team.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                  <Link href="/dashboard/upgrade">
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
