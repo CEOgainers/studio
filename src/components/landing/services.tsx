@@ -47,10 +47,10 @@ export async function Services() {
                   <div className="text-4xl font-bold font-headline text-primary">
                     {service.price}
                   </div>
-                  <ul className="mt-4 space-y-2">
+                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                     {service.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-primary" />
+                      <li key={feature} className="flex items-start gap-2">
+                        <Check className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -58,7 +58,7 @@ export async function Services() {
                 </CardContent>
                 <CardFooter>
                     <Link href={`/services/${service.id}`} className="w-full">
-                        <Button variant="outline" className="w-full">View Details</Button>
+                        <Button variant="outline" className="w-full">View Full Roadmap</Button>
                     </Link>
                 </CardFooter>
               </Card>
