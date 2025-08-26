@@ -1,35 +1,30 @@
-
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    function isAdmin() {
-      // Check if the user's role is 'Admin' in the /users collection
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+    match /users/{userId} {
+      // Any authenticated user can read any user's profile (role, name, etc.)
+      // This is safe and necessary for role-based rules to work.
+      allow read: if request.auth != null;
+      
+      // A user can only create or update their OWN document.
+      allow write: if request.auth.uid == userId;
     }
 
-    match /users/{userId} {
-      // Any authenticated user can read user profiles (needed for role checks)
-      allow read: if request.auth != null;
-      // A user can only create their own document
-      allow create: if request.auth.uid == userId;
-      // A user can only update their own document
-      allow update: if request.auth.uid == userId;
-    }
-    
     match /services/{serviceId} {
-      // Anyone can read the services (for landing/upgrade pages)
-      allow get, list: if true;
-      // Only Admins can create, update, or delete services
-      allow write: if isAdmin();
+      // Anyone can read the list of services (for the landing page).
+      allow read: if true;
+      
+      // Only users whose own user document has role == 'Admin' can write.
+      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
     }
 
     match /payments/{paymentId} {
-      // A user can create their own payment record
-      allow create: if request.auth.uid == request.resource.data.userId;
-      // Admins can read/update any payment, users can only read/update their own
-      allow read, update: if isAdmin() || request.auth.uid == resource.data.userId;
+      // Only admins can read all payment submissions.
+      allow read: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+      
+      // Any authenticated user can create a payment document.
+      allow create: if request.auth != null;
     }
   }
 }
