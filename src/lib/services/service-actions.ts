@@ -46,9 +46,10 @@ export async function addService(service: Omit<Service, 'id'>): Promise<{ succes
   try {
     await addDoc(collection(db, 'services'), service);
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error adding service:', error);
-    throw new Error('Failed to add service.');
+    // Re-throw the original error to get more specific feedback in the UI
+    throw new Error(error.message || 'Failed to add service.');
   }
 }
 
@@ -62,9 +63,10 @@ export async function updateService(
     const serviceDoc = doc(db, 'services', id);
     await updateDoc(serviceDoc, service);
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating service:', error);
-    throw new Error('Failed to update service.');
+    // Re-throw the original error to get more specific feedback in the UI
+    throw new Error(error.message || 'Failed to update service.');
   }
 }
 
@@ -74,8 +76,9 @@ export async function deleteService(id: string): Promise<{ success: boolean }> {
     try {
         await deleteDoc(doc(db, "services", id));
         return { success: true };
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error deleting service:", error);
-        throw new Error("Failed to delete service.");
+        // Re-throw the original error to get more specific feedback in the UI
+        throw new Error(error.message || 'Failed to delete service.');
     }
 }
