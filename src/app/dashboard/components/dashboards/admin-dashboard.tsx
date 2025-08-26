@@ -3,6 +3,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Briefcase, CreditCard, Home, Users, Gem } from 'lucide-react';
 import { ServiceManagement } from '../service-management';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+const pendingPayments = [
+  { id: 1, email: 'student1@example.com', service: 'Full Application Assistance', trxId: 'BK123XYZ', method: 'bKash', date: '2024-08-14' },
+  { id: 2, email: 'student2@example.com', service: 'Review Service', trxId: 'NG456ABC', method: 'Nagad', date: '2024-08-13' },
+];
 
 export function AdminDashboard() {
   return (
@@ -29,10 +44,33 @@ export function AdminDashboard() {
              <Card>
                 <CardHeader>
                     <CardTitle>Payment Approval</CardTitle>
-                    <CardDescription>Review and approve pending payments.</CardDescription>
+                    <CardDescription>Review and approve pending payments to grant students dashboard access.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>A table of pending payments with approval buttons will be here.</p>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Student Email</TableHead>
+                                <TableHead>Service</TableHead>
+                                <TableHead>Method</TableHead>
+                                <TableHead>Transaction ID</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Action</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {pendingPayments.map((payment) => (
+                                <TableRow key={payment.id}>
+                                    <TableCell>{payment.email}</TableCell>
+                                    <TableCell className="font-medium">{payment.service}</TableCell>
+                                    <TableCell><Badge variant="outline">{payment.method}</Badge></TableCell>
+                                    <TableCell>{payment.trxId}</TableCell>
+                                    <TableCell>{payment.date}</TableCell>
+                                    <TableCell><Button size="sm">Approve</Button></TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </CardContent>
             </Card>
         </TabsContent>
@@ -43,7 +81,7 @@ export function AdminDashboard() {
                     <CardDescription>View, edit, and manage all users.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>A table of all users (students, instructors) will be here.</p>
+                    <p>A table of all users (students, instructors) with progress tracking and instructor allocation will be here.</p>
                 </CardContent>
             </Card>
         </TabsContent>
