@@ -13,11 +13,11 @@ import { useEffect, useState } from 'react';
 import {
   addService,
   deleteService,
-  getServices,
+  getAllServices,
   Service,
   updateService,
 } from '@/lib/services/service-actions';
-import { Loader2, PlusCircle, Trash, Edit } from 'lucide-react';
+import { Loader2, PlusCircle, Trash, Edit, Eye, EyeOff } from 'lucide-react';
 import { ServiceFormDialog } from './service-form-dialog';
 import {
   AlertDialog,
@@ -30,6 +30,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 
 export function ServiceManagement() {
   const [services, setServices] = useState<Service[]>([]);
@@ -41,7 +44,7 @@ export function ServiceManagement() {
   const fetchServices = async () => {
     setIsLoading(true);
     try {
-      const fetchedServices = await getServices();
+      const fetchedServices = await getAllServices();
       setServices(fetchedServices);
     } catch (error) {
       toast({
@@ -92,6 +95,20 @@ export function ServiceManagement() {
       });
     }
   };
+  
+  const handleVisibilityToggle = async (service: Service) => {
+    try {
+      await updateService(service.id, { visible: !service.visible });
+      toast({ title: 'Success', description: 'Service visibility updated.' });
+      await fetchServices();
+    } catch (error: any) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message,
+      });
+    }
+  }
 
   const handleAddNew = () => {
     setSelectedService(null);
@@ -134,36 +151,54 @@ export function ServiceManagement() {
               className="flex items-center justify-between p-4 border rounded-lg"
             >
               <div>
-                <h3 className="font-semibold">{service.title}</h3>
+                <h3 className="font-semibold flex items-center gap-2">
+                    {service.title}
+                    <Badge variant={service.visible ? 'default' : 'secondary'}>
+                        {service.visible ? <Eye className="mr-1 h-3 w-3" /> : <EyeOff className="mr-1 h-3 w-3" />}
+                        {service.visible ? 'Visible' : 'Hidden'}
+                    </Badge>
+                </h3>
                 <p className="text-sm text-muted-foreground">
                   {service.price} - {service.features.join(', ')}
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" onClick={() => handleEdit(service)}>
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="icon">
-                      <Trash className="h-4 w-4" />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the service.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => handleDelete(service.id)}>
-                        Delete
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+              <div className="flex items-center gap-4">
+                 <div className="flex items-center space-x-2">
+                    <Switch
+                        id={`visibility-switch-${service.id}`}
+                        checked={service.visible}
+                        onCheckedChange={() => handleVisibilityToggle(service)}
+                    />
+                    <Label htmlFor={`visibility-switch-${service.id}`} className="text-sm">
+                        Show on landing page
+                    </Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="icon" onClick={() => handleEdit(service)}>
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" size="icon">
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently delete the service.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleDelete(service.id)}>
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </div>
             </div>
           ))}

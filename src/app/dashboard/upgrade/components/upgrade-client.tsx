@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Check, Gem, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { PaymentDialog } from './payment-dialog';
-import { getServices, Service } from '@/lib/services/service-actions';
+import { getVisibleServices, Service } from '@/lib/services/service-actions';
 
 export function UpgradeClient() {
   const [services, setServices] = useState<Service[]>([]);
@@ -24,7 +24,7 @@ export function UpgradeClient() {
     const fetchServices = async () => {
       setIsLoading(true);
       try {
-        const fetchedServices = await getServices();
+        const fetchedServices = await getVisibleServices();
         setServices(fetchedServices);
       } catch (error) {
         console.error('Failed to fetch services:', error);

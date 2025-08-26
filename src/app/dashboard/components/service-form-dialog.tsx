@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { Service } from '@/lib/services/service-actions';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 
 interface ServiceFormDialogProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ const FormSchema = z.object({
   price: z.string().min(1, 'Price is required.'),
   features: z.string().min(1, 'At least one feature is required.'),
   order: z.number().min(0),
+  visible: z.boolean(),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -58,6 +60,7 @@ export function ServiceFormDialog({
       price: service?.price ?? '',
       features: service?.features.join(', ') ?? '',
       order: service?.order ?? 0,
+      visible: service?.visible ?? true,
     },
   });
 
@@ -160,6 +163,26 @@ export function ServiceFormDialog({
                   </FormItem>
                 )}
               />
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Visible</FormLabel>
+                     <p className="text-sm text-muted-foreground">
+                        Show this service on the landing page.
+                      </p>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <DialogFooter>
               <Button type="button" variant="ghost" onClick={handleClose}>Cancel</Button>
               <Button type="submit" disabled={isLoading}>

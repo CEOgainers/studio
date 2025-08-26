@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Check, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getServices, Service } from '@/lib/services/service-actions';
+import { getVisibleServices, Service } from '@/lib/services/service-actions';
 import Link from 'next/link';
 
 export function Services() {
@@ -21,7 +21,7 @@ export function Services() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const fetchedServices = await getServices();
+        const fetchedServices = await getVisibleServices();
         setServices(fetchedServices);
       } catch (error) {
         console.error("Failed to fetch services:", error);

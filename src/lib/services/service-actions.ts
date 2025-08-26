@@ -11,6 +11,7 @@ import {
   orderBy,
   deleteDoc,
   DocumentData,
+  where,
 } from 'firebase/firestore';
 
 export interface Service extends DocumentData {
@@ -20,10 +21,11 @@ export interface Service extends DocumentData {
   price: string;
   features: string[];
   order: number;
+  visible: boolean;
 }
 
-// Fetch all services
-export async function getServices(): Promise<Service[]> {
+// Fetch all services for the admin panel
+export async function getAllServices(): Promise<Service[]> {
   if (!db) throw new Error('Firebase is not configured.');
   try {
     const servicesCol = collection(db, 'services');
@@ -40,6 +42,25 @@ export async function getServices(): Promise<Service[]> {
   }
 }
 
+// Fetch only visible services for public pages
+export async function getVisibleServices(): Promise<Service[]> {
+  if (!db) throw new Error('Firebase is not configured.');
+  try {
+    const servicesCol = collection(db, 'services');
+    const q = query(servicesCol, where('visible', '==', true), orderBy('order', 'asc'));
+    const serviceSnapshot = await getDocs(q);
+    const serviceList = serviceSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Service[];
+    return serviceList;
+  } catch (error) {
+    console.error('Error fetching visible services:', error);
+    return [];
+  }
+}
+
+
 // Add a new service
 export async function addService(service: Omit<Service, 'id'>): Promise<{ success: boolean }> {
   if (!db) throw new Error('Firebase is not configured.');
@@ -48,7 +69,6 @@ export async function addService(service: Omit<Service, 'id'>): Promise<{ succes
     return { success: true };
   } catch (error: any) {
     console.error('Error adding service:', error);
-    // Re-throw the original error to get more specific feedback in the UI
     throw new Error(error.message || 'Failed to add service.');
   }
 }
@@ -65,7 +85,6 @@ export async function updateService(
     return { success: true };
   } catch (error: any) {
     console.error('Error updating service:', error);
-    // Re-throw the original error to get more specific feedback in the UI
     throw new Error(error.message || 'Failed to update service.');
   }
 }
@@ -78,7 +97,6 @@ export async function deleteService(id: string): Promise<{ success: boolean }> {
         return { success: true };
     } catch (error: any) {
         console.error("Error deleting service:", error);
-        // Re-throw the original error to get more specific feedback in the UI
         throw new Error(error.message || 'Failed to delete service.');
     }
 }
