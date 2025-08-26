@@ -7,6 +7,9 @@ import { SubmitCredentialsTask } from './tasks/submit-credentials-task';
 import { ProfileTask } from './tasks/profile-task';
 import { CountryPreferenceTask } from './tasks/country-preference-task';
 import { SopWrittenTask } from './tasks/sop-written-task';
+import { UniversityListTask } from './tasks/university-list-task';
+import { ProfessorListTask } from './tasks/professor-list-task';
+import { LorDetailsTask } from './tasks/lor-details-task';
 
 export default function TasksView({ isInstructor = false }: { isInstructor?: boolean }) {
   return (
@@ -24,7 +27,10 @@ export default function TasksView({ isInstructor = false }: { isInstructor?: boo
         <SubmitCredentialsTask isInstructor={isInstructor} />
         <ProfileTask isInstructor={isInstructor} />
         <CountryPreferenceTask isInstructor={isInstructor} />
+        <UniversityListTask isInstructor={isInstructor} />
+        <ProfessorListTask isInstructor={isInstructor} />
         <SopWrittenTask isInstructor={isInstructor} />
+        <LorDetailsTask isInstructor={isInstructor} />
       </Accordion>
     </div>
   );

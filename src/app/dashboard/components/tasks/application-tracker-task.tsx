@@ -72,11 +72,42 @@ export function ApplicationTrackerTask({ isInstructor }: { isInstructor?: boolea
             <CounselorTask title="Detail Compilation" description="Provide contact details, research interests, and recent publications." completed={true}/>
             <CounselorTask title="Email Templates" description="Supply professional email templates for outreach." completed={true}/>
         </CounselorTaskGroup>
+
+        <CounselorTaskGroup title="Email Communication Support">
+            <CounselorTask title="Template Creation" description="Craft personalized email drafts for contacting professors." completed={true}/>
+            <CounselorTask title="Scheduling Assistance" description="Help you manage and organize email communications." completed={false}/>
+            <CounselorTask title="Follow-Up Tasks" description="Track responses and guide follow-up efforts effectively." completed={false}/>
+        </CounselorTaskGroup>
         
          <CounselorTaskGroup title="SOP Preparation (Iterative Process)">
             <CounselorTask title="SOP Preparation-1" description="Drafting Assistance: Guide you in creating SOPs, LORs, and LOMs that highlight your strengths." completed={true}/>
             <CounselorTask title="SOP Preparation-2" description="Review Tasks: Provide feedback to refine and improve your drafts." completed={false}/>
              <CounselorTask title="SOP Preparation-3" description="Final Crafting: Deliver polished and impactful documents ready for submission." completed={false}/>
+        </CounselorTaskGroup>
+
+        <CounselorTaskGroup title="CV Development (Iterative Process)">
+            <CounselorTask title="Drafting Support" description="Assist in crafting a professional CV tailored to your applications." completed={true}/>
+            <CounselorTask title="Formatting Guidance" description="Ensure your CV meets standard academic and professional requirements." completed={false}/>
+            <CounselorTask title="Final Review" description="Provide expert input to ensure an error-free and professional document." completed={false}/>
+        </CounselorTaskGroup>
+        
+        <CounselorTaskGroup title="LOR Preparation">
+            <CounselorTask title="Recommender Outreach" description="Guide how to approach recommenders and provide templates." completed={false}/>
+            <CounselorTask title="Content Guidance" description="Help recommenders write strong, personalized LORs with examples." completed={false}/>
+            <CounselorTask title="Task Assignment" description="Ensure LORs are collected on time and follow up as needed." completed={false}/>
+        </CounselorTaskGroup>
+
+        <CounselorTaskGroup title="All Documents Review">
+            <CounselorTask title="SOP Review" description="Examine your Statement of Purpose for clarity, structure, and alignment with program goals." completed={false}/>
+            <CounselorTask title="LOR Review" description="Ensure Letters of Recommendation are personalized, impactful, and reflective of your strengths." completed={false}/>
+            <CounselorTask title="CV Review" description="Check if the CV is well-organized, highlights relevant experience, and adheres to the required format." completed={false}/>
+            <CounselorTask title="Application Review" description="Verify all application forms and additional documents are complete and error-free." completed={false}/>
+        </CounselorTaskGroup>
+
+        <CounselorTaskGroup title="Full Application Guidance">
+            <CounselorTask title="Step-by-Step Support" description="Assist with completing applications, uploading documents, and fee payments." completed={false}/>
+            <CounselorTask title="Application Tracking" description="Help you monitor deadlines and ensure accurate submissions." completed={false}/>
+            <CounselorTask title="Additional Requirements" description="Offer support with extra submissions like portfolios or writing samples." completed={false}/>
         </CounselorTaskGroup>
 
         {isInstructor && <Button>Update Status</Button>}
@@ -85,4 +116,3 @@ export function ApplicationTrackerTask({ isInstructor }: { isInstructor?: boolea
     </AccordionItem>
   );
 }
-
