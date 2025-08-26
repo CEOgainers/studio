@@ -61,7 +61,7 @@ const profileFormSchema = z.object({
     z.object({
       name: z.string(),
       dob: z.date(),
-      email: z.string().email().optional(),
+      email: z.string().email().optional().or(z.literal('')),
     })
   ).default([
       { name: 'Mehwish Nurayin Kongka', dob: new Date('2023-04-04'), email: '' },
