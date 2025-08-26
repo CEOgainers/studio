@@ -1,0 +1,106 @@
+'use client';
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Check, Gem } from 'lucide-react';
+import { useState } from 'react';
+import { PaymentDialog } from './payment-dialog';
+import type { Service } from './payment-dialog';
+
+const services: Service[] = [
+  {
+    title: 'Full Application Assistance',
+    price: 'BDT 25,000',
+    description:
+      'Complete guidance for Masters, Bachelor, and PhD applications.',
+    features: [
+      '15 Sessions (Masters/PhD)',
+      '8 Sessions (Bachelor)',
+      'Full document crafting',
+      'Professor Outreach',
+    ],
+  },
+  {
+    title: 'Full Crafting Service',
+    price: 'BDT 12,000',
+    description: 'We craft your SOP, LOR, and CV from scratch.',
+    features: [
+      'Information Gathering',
+      'Document Drafting',
+      'Review & Revision',
+      'Finalized Documents',
+    ],
+  },
+  {
+    title: 'Review Service',
+    price: 'BDT 5,000',
+    description: 'Get expert feedback on your existing application documents.',
+    features: [
+      'Document Submission',
+      'AI Originality Check',
+      'Expert Feedback',
+      'Final Review & Approval',
+    ],
+  },
+];
+
+export function UpgradeClient() {
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleEnroll = (service: Service) => {
+    setSelectedService(service);
+    setIsDialogOpen(true);
+  };
+
+  return (
+    <>
+      <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-3 lg:gap-12">
+        {services.map((service) => (
+          <Card
+            key={service.title}
+            className="flex flex-col hover:shadow-xl transition-shadow duration-300"
+          >
+            <CardHeader>
+              <CardTitle className="font-headline">{service.title}</CardTitle>
+              <CardDescription>{service.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1">
+              <div className="text-4xl font-bold font-headline text-primary">
+                {service.price}
+              </div>
+              <ul className="mt-4 space-y-2">
+                {service.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full" onClick={() => handleEnroll(service)}>
+                <Gem className="mr-2 h-4 w-4" />
+                Choose Plan
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+      {selectedService && (
+        <PaymentDialog
+          service={selectedService}
+          isOpen={isDialogOpen}
+          setIsOpen={setIsDialogOpen}
+        />
+      )}
+    </>
+  );
+}

@@ -81,9 +81,11 @@ function DesktopNav() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                  <Button size="sm" className="w-full">
-                    Upgrade
-                  </Button>
+                  <Link href="/dashboard/upgrade">
+                    <Button size="sm" className="w-full">
+                      Upgrade
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </div>

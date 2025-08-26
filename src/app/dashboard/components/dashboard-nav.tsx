@@ -8,6 +8,7 @@ import {
   Star,
   BookUser,
   Settings,
+  Gem,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -18,6 +19,7 @@ const navItems = [
     { href: '/dashboard/tasks', icon: Star, label: 'Tasks' },
     { href: '/dashboard/documents', icon: BookUser, label: 'Documents' },
     { href: '/dashboard/leaderboard', icon: Trophy, label: 'Leaderboard' },
+    { href: '/dashboard/upgrade', icon: Gem, label: 'Upgrade' },
     { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
 
