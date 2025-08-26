@@ -10,8 +10,12 @@ import { SopWrittenTask } from './tasks/sop-written-task';
 import { UniversityListTask } from './tasks/university-list-task';
 import { ProfessorListTask } from './tasks/professor-list-task';
 import { LorDetailsTask } from './tasks/lor-details-task';
+import { useAuth } from '@/lib/auth/auth-provider';
 
-export default function TasksView({ isInstructor = false }: { isInstructor?: boolean }) {
+export default function TasksView() {
+  const { userRole } = useAuth();
+  const isInstructor = userRole === 'Instructor';
+
   return (
     <div className="space-y-6">
        <div>
@@ -19,7 +23,10 @@ export default function TasksView({ isInstructor = false }: { isInstructor?: boo
           Full Application Assistance
         </h1>
         <p className="text-sm text-muted-foreground">
-          Complete the tasks below to move forward with your application.
+          {isInstructor 
+            ? "Review the student's progress and update your tasks."
+            : "Complete the tasks below to move forward with your application."
+          }
         </p>
       </div>
       <Accordion type="single" collapsible className="w-full space-y-4">

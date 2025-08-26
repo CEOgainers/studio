@@ -37,15 +37,7 @@ export function InstructorDashboard() {
             </Card>
         </TabsContent>
          <TabsContent value="tasks">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Student Tasks</CardTitle>
-                    <CardDescription>Review and provide feedback on student tasks.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <TasksView isInstructor={true} />
-                </CardContent>
-            </Card>
+            <TasksView isInstructor={true} />
         </TabsContent>
         <TabsContent value="documents">
              <Card>
