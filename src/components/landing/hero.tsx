@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+<<<<<<< HEAD
+=======
+import logo from './logo.jpg'; // 1. Import the correct image file
+>>>>>>> 9717f9bf2b286ff46d6273a4d648255fd97de3eb
 
 export function Hero() {
   return (
@@ -23,9 +27,15 @@ export function Hero() {
             </div>
           </div>
           <Image
+<<<<<<< HEAD
             src="https://placehold.co/600x400.png"
             width="600"
             height="400"
+=======
+            src={logo} // 2. Use the imported variable here
+            width={600}
+            height={400}
+>>>>>>> 9717f9bf2b286ff46d6273a4d648255fd97de3eb
             alt="Gainers Future Banner"
             data-ai-hint="education banner"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square shadow-2xl"
