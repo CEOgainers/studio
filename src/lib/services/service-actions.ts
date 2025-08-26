@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db } from '@/lib/auth/firebase';
@@ -12,6 +13,7 @@ import {
   deleteDoc,
   DocumentData,
   where,
+  getDoc,
 } from 'firebase/firestore';
 
 export interface Service extends DocumentData {
@@ -58,6 +60,23 @@ export async function getVisibleServices(): Promise<Service[]> {
     console.error('Error fetching visible services:', error);
     return [];
   }
+}
+
+// Fetch a single service by its ID
+export async function getServiceById(id: string): Promise<Service | null> {
+    if (!db) throw new Error("Firebase is not configured.");
+    try {
+        const serviceDocRef = doc(db, "services", id);
+        const serviceSnapshot = await getDoc(serviceDocRef);
+        if (serviceSnapshot.exists()) {
+            return { id: serviceSnapshot.id, ...serviceSnapshot.data() } as Service;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching service by ID:", error);
+        return null;
+    }
 }
 
 

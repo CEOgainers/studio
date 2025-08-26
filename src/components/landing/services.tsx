@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -78,8 +79,8 @@ export function Services() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                    <Link href="/dashboard/upgrade" className="w-full">
-                        <Button className="w-full">Enroll Now</Button>
+                    <Link href={`/services/${service.id}`} className="w-full">
+                        <Button variant="outline" className="w-full">View Details</Button>
                     </Link>
                 </CardFooter>
               </Card>
