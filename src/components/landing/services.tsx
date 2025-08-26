@@ -1,6 +1,4 @@
 
-'use client';
-
 import {
   Card,
   CardHeader,
@@ -10,28 +8,12 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getVisibleServices, Service } from '@/lib/services/service-actions';
+import { Check } from 'lucide-react';
+import { getVisibleServices } from '@/lib/services/service-actions';
 import Link from 'next/link';
 
-export function Services() {
-  const [services, setServices] = useState<Service[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const fetchedServices = await getVisibleServices();
-        setServices(fetchedServices);
-      } catch (error) {
-        console.error("Failed to fetch services:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchServices();
-  }, []);
+export async function Services() {
+  const services = await getVisibleServices();
 
   return (
     <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-background">
@@ -50,12 +32,8 @@ export function Services() {
             </p>
           </div>
         </div>
-        {isLoading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        ) : (
-          <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+        
+        <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-3 lg:gap-12">
             {services.map((service) => (
               <Card
                 key={service.id}
@@ -85,8 +63,7 @@ export function Services() {
                 </CardFooter>
               </Card>
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );
