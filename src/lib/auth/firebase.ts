@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
-import { getAnalytics, type Analytics } from "firebase/analytics";
+import { getAnalytics, type Analytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -33,13 +33,11 @@ if (allConfigSet) {
         auth = getAuth(app);
         db = getFirestore(app);
         if (typeof window !== 'undefined') {
-          // Check if analytics is supported
-          try {
-            analytics = getAnalytics(app);
-          } catch(e) {
-            console.warn("Firebase Analytics is not available in this environment.");
-            analytics = null;
-          }
+          isSupported().then((isSupported) => {
+            if (isSupported) {
+              analytics = getAnalytics(app);
+            }
+          })
         }
     } catch(e) {
         console.error("Error initializing Firebase", e);
