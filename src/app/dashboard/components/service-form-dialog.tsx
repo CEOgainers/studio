@@ -158,7 +158,7 @@ export function ServiceFormDialog({
                   <FormItem>
                     <FormLabel>Display Order</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value, 10))}/>
+                      <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value, 10) || 0)}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
