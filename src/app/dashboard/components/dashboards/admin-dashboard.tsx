@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Briefcase, CreditCard, Home, Users, Gem } from 'lucide-react';
+import { ServiceManagement } from '../service-management';
 
 export function AdminDashboard() {
   return (
@@ -58,15 +59,7 @@ export function AdminDashboard() {
             </Card>
         </TabsContent>
         <TabsContent value="services">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Service Management</CardTitle>
-                    <CardDescription>Manage the service packages offered.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>A section to edit service details and pricing will be here.</p>
-                </CardContent>
-            </Card>
+             <ServiceManagement />
         </TabsContent>
     </Tabs>
   );

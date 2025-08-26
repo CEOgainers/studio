@@ -28,13 +28,8 @@ import Image from 'next/image';
 import { submitPayment } from '../actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle } from 'lucide-react';
+import { Service } from '@/lib/services/service-actions';
 
-export interface Service {
-  title: string;
-  price: string;
-  description: string;
-  features: string[];
-}
 
 interface PaymentDialogProps {
   service: Service;
