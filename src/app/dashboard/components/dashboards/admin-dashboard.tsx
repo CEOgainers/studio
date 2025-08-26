@@ -10,21 +10,12 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import { Users, Briefcase, CreditCard } from 'lucide-react';
 
 const pendingPayments = [
   { id: 1, email: 'student1@example.com', service: 'Full Application Assistance', trxId: 'BK123XYZ', method: 'bKash', date: '2024-08-14' },
   { id: 2, email: 'student2@example.com', service: 'Review Service', trxId: 'NG456ABC', method: 'Nagad', date: '2024-08-13' },
 ];
-
-const users = [
-    { id: 1, name: 'Aarav Sharma', email: 'aarav.sharma@example.com', role: 'Student', progress: 75, instructor: 'Dr. Emily Carter' },
-    { id: 2, name: 'Diya Patel', email: 'diya.patel@example.com', role: 'Student', progress: 40, instructor: 'Not Assigned' },
-    { id: 3, name: 'Dr. Emily Carter', email: 'emily.carter@example.com', role: 'Instructor', progress: 0, instructor: '' },
-    { id: 4, name: 'Rohan Mehta', email: 'rohan.mehta@example.com', role: 'Student', progress: 95, instructor: 'Dr. John Doe' },
-    { id: 5, name: 'Dr. John Doe', email: 'john.doe@example.com', role: 'Instructor', progress: 0, instructor: '' },
-];
-
 
 export function AdminDashboard() {
   return (
