@@ -6,6 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -17,7 +18,7 @@ import {
   Service,
   updateService,
 } from '@/lib/services/service-actions';
-import { Loader2, PlusCircle, Trash, Edit, Eye, EyeOff } from 'lucide-react';
+import { Loader2, PlusCircle, Trash, Edit, Eye, EyeOff, Check } from 'lucide-react';
 import { ServiceFormDialog } from './service-form-dialog';
 import {
   AlertDialog,
@@ -122,9 +123,17 @@ export function ServiceManagement() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-40">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
+      <Card>
+        <CardHeader>
+             <CardTitle>Service Management</CardTitle>
+            <CardDescription>
+              Add, edit, or remove service packages for the platform.
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="flex justify-center items-center h-40">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </CardContent>
+      </Card>
     );
   }
 
@@ -144,26 +153,40 @@ export function ServiceManagement() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        {services.length === 0 ? (
+          <div className="text-center text-muted-foreground py-16 border-2 border-dashed rounded-lg">
+            <h3 className="text-lg font-semibold">No services found.</h3>
+            <p>Click the button above to add your first service package.</p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
-            <div
-              key={service.id}
-              className="flex items-center justify-between p-4 border rounded-lg"
-            >
-              <div>
-                <h3 className="font-semibold flex items-center gap-2">
-                    {service.title}
-                    <Badge variant={service.visible ? 'default' : 'secondary'}>
+            <Card key={service.id} className="flex flex-col">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                    <CardTitle className="font-headline">{service.title}</CardTitle>
+                     <Badge variant={service.visible ? 'default' : 'secondary'}>
                         {service.visible ? <Eye className="mr-1 h-3 w-3" /> : <EyeOff className="mr-1 h-3 w-3" />}
                         {service.visible ? 'Visible' : 'Hidden'}
                     </Badge>
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {service.price} - {service.features.join(', ')}
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                 <div className="flex items-center space-x-2">
+                </div>
+                <CardDescription>{service.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <div className="text-3xl font-bold font-headline text-primary">
+                    {service.price}
+                </div>
+                 <ul className="mt-4 space-y-2 text-sm">
+                  {service.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      <span className="text-muted-foreground">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter className="flex-col gap-2 items-stretch">
+                <div className="flex items-center space-x-2 p-3 border rounded-md">
                     <Switch
                         id={`visibility-switch-${service.id}`}
                         checked={service.visible}
@@ -173,14 +196,14 @@ export function ServiceManagement() {
                         Show on landing page
                     </Label>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="icon" onClick={() => handleEdit(service)}>
-                    <Edit className="h-4 w-4" />
+                 <div className="flex items-center gap-2">
+                  <Button variant="outline" className="w-full" onClick={() => handleEdit(service)}>
+                    <Edit className="h-4 w-4" /> Edit
                   </Button>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button variant="destructive" size="icon">
-                        <Trash className="h-4 w-4" />
+                      <Button variant="destructive" className="w-full">
+                        <Trash className="h-4 w-4" /> Delete
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
@@ -199,15 +222,12 @@ export function ServiceManagement() {
                     </AlertDialogContent>
                   </AlertDialog>
                 </div>
-              </div>
-            </div>
+              </CardFooter>
+            </Card>
           ))}
         </div>
-        {services.length === 0 && (
-          <p className="text-center text-muted-foreground py-8">
-            No services found. Add one to get started.
-          </p>
         )}
+        
       </CardContent>
       {isFormOpen && (
         <ServiceFormDialog
