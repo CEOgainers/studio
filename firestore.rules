@@ -2,17 +2,37 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // By default, deny all reads and writes
-    match /{document=**} {
-      allow read, write: if false;
+    
+    // Helper function to check for Admin role
+    function isAdmin() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
     }
 
-    // Allow users to create and read their own user document
+    // Rules for the 'users' collection
     match /users/{userId} {
-      // A user can create their own document if the document ID matches their user ID
-      allow create: if request.auth != null && request.auth.uid == userId;
-      // A user can read their own document if they are logged in and their ID matches
+      // Allow user creation on sign-up for anyone
+      allow create: if request.auth != null;
+      // Allow users to read their own data
       allow read: if request.auth != null && request.auth.uid == userId;
+      // Allow users to update their own data
+      allow update: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Rules for the 'services' collection
+    match /services/{serviceId} {
+      // Allow anyone to read the services (for landing page and upgrade page)
+      allow get, list: if true;
+      // Allow only Admins to create, update, or delete services
+      allow write: if isAdmin();
+    }
+
+    // Rules for the 'payments' collection
+    match /payments/{paymentId} {
+      // Allow authenticated users to create a payment record
+      allow create: if request.auth != null;
+      // Allow only admins to read or update payment records (e.g., to approve them)
+      allow read, update: if isAdmin();
     }
   }
 }
