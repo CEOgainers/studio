@@ -49,21 +49,41 @@ export async function getVisibleServices(): Promise<Service[]> {
   if (!db) throw new Error('Firebase is not configured.');
   try {
     const servicesCol = collection(db, 'services');
-    // Query by order first, then filter by visibility in the code.
-    // This avoids needing a composite index in Firestore.
-    const q = query(servicesCol, orderBy('order', 'asc'));
+    const q = query(servicesCol, where('visible', '==', true), orderBy('order', 'asc'));
     const serviceSnapshot = await getDocs(q);
     const serviceList = serviceSnapshot.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }) as Service)
-        .filter((service) => service.visible);
     return serviceList;
-  } catch (error) {
+  } catch (error: any) {
+     if (error.code === 'failed-precondition') {
+        // This error means the composite index is missing. We'll fall back to client-side filtering.
+        console.warn("Firestore composite index missing for 'getVisibleServices'. Falling back to client-side filtering. For better performance, please create the required index in your Firebase console.");
+        return getVisibleServicesWithClientFilter();
+    }
     console.error('Error fetching visible services:', error);
     // Rethrow the error to be handled by the caller, which can show an error to the user.
     // In this case, the Next.js boundary will catch it.
     throw error;
   }
 }
+
+// Fallback function to filter on the client if the index doesn't exist
+async function getVisibleServicesWithClientFilter(): Promise<Service[]> {
+    if (!db) throw new Error('Firebase is not configured.');
+    try {
+        const servicesCol = collection(db, 'services');
+        const q = query(servicesCol, orderBy('order', 'asc'));
+        const serviceSnapshot = await getDocs(q);
+        const serviceList = serviceSnapshot.docs
+            .map((doc) => ({ id: doc.id, ...doc.data() }) as Service)
+            .filter((service) => service.visible);
+        return serviceList;
+    } catch (error) {
+        console.error('Error fetching services with client filter:', error);
+        throw error;
+    }
+}
+
 
 // Fetch a single service by its ID
 export async function getServiceById(id: string): Promise<Service | null> {
