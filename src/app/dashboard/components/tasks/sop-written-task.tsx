@@ -1,5 +1,6 @@
 
 'use client';
+import * as React from 'react';
 import {
   AccordionContent,
   AccordionItem,
@@ -170,7 +171,3 @@ export function SopWrittenTask({ isInstructor }: { isInstructor?: boolean }) {
     </AccordionItem>
   );
 }
-
-// Dummy separator to avoid importing it everywhere
-// const Separator = () => <div className="border-b" />;
-
